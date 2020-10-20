@@ -1,0 +1,10 @@
+.vs
+.vs/*
+*.log
+Logs/*
+obj/*
+Temp/*
+Library/*
+UnityTrainning.sln
+Assembly-CSharp.csproj
+
