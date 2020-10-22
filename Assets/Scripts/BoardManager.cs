@@ -40,6 +40,8 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 1; j < row; j++)
             {
+                if (i == (col - 1) && j == (row - 1.0f))
+                    continue;
                 gridPositions.Add(new Vector3(i, j, 0.0f));
             }
         }
@@ -80,11 +82,23 @@ public class BoardManager : MonoBehaviour
             GameObject toInstantiate = tileArray[Random.Range(0, tileArray.Length)];
             GameObject obj = Instantiate(toInstantiate, pos, Quaternion.identity);
             obj.transform.SetParent(boardHolder);
+            gameObjects.Add(obj);
         }
     }
 
+    List<GameObject> gameObjects = new List<GameObject>();
+    public void DestroyAllUnit()
+    {
+        foreach (var item in gameObjects)
+        {
+            DestroyImmediate(item);
+        }
+        gameObjects.Clear();
+    }    
+
     public void SetupScene(int level)
     {
+        print("setip");
         BoardSetup();
         InitializeList();
         LayoutObjectAtRandom(wallTitles, wallCount.maximum, wallCount.maximum);
@@ -92,5 +106,6 @@ public class BoardManager : MonoBehaviour
         int enemyCount = (int)Mathf.Log(level, 2.0f);
         LayoutObjectAtRandom(enemyTitles, enemyCount, enemyCount);
         Instantiate(exit, new Vector3(col - 1, row - 1.0f, 0.0f), Quaternion.identity);
+        gameObjects.Add(exit);
     }
 }
